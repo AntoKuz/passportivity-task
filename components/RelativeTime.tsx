@@ -17,7 +17,7 @@ export default function RelativeTime({ date }: RelativeTimeProps) {
     };
 
     updateTime();
-    const interval = setInterval(updateTime, 30000);
+    const interval = setInterval(updateTime, 60000);
 
     return () => clearInterval(interval);
   }, [date]);
