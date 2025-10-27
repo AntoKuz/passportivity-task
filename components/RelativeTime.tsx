@@ -22,6 +22,10 @@ export default function RelativeTime({ date }: RelativeTimeProps) {
     return () => clearInterval(interval);
   }, [date]);
 
-  return <span>{timeAgo}</span>;
+  return (
+    <span className="whitespace-nowrap">
+      {timeAgo}
+    </span>
+  );
 }
 

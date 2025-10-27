@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export const metadata: Metadata = {
   title: "Git Commit History Viewer",
@@ -13,7 +14,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="transition-colors duration-200">
+        <div className="fixed top-4 right-4 z-50 animate-fade-in">
+          <ThemeToggle />
+        </div>
+        {children}
+      </body>
     </html>
   );
 }

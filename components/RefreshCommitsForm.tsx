@@ -1,14 +1,21 @@
 'use client';
 
-import { useTransition, useState } from 'react';
+import { useTransition, useState, useEffect } from 'react';
 
 interface RefreshCommitsFormProps {
   onRefresh: () => Promise<void>;
+  onPendingChange?: (isPending: boolean) => void;
 }
 
-export default function RefreshCommitsForm({ onRefresh }: RefreshCommitsFormProps) {
+export default function RefreshCommitsForm({ onRefresh, onPendingChange }: RefreshCommitsFormProps) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (onPendingChange) {
+      onPendingChange(isPending);
+    }
+  }, [isPending, onPendingChange]);
 
   async function handleRefresh() {
     setError(null);
@@ -27,7 +34,7 @@ export default function RefreshCommitsForm({ onRefresh }: RefreshCommitsFormProp
         type="button"
         onClick={handleRefresh}
         disabled={isPending}
-        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg"
+        className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 dark:hover:from-blue-600 dark:hover:to-indigo-600 disabled:from-gray-400 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 active:translate-y-0"
       >
         {isPending ? (
           <>
@@ -46,7 +53,7 @@ export default function RefreshCommitsForm({ onRefresh }: RefreshCommitsFormProp
           </>
         )}
       </button>
-      {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
+      {error && <p className="text-red-600 dark:text-red-400 text-sm mt-2">{error}</p>}
     </div>
   );
 }
